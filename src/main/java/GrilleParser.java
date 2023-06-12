@@ -6,6 +6,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import exception.ElementInterditException;
+import exception.HorsBornesException;
+import exception.ValeurImpossibleException;
+import exception.ValeurInitialeModificationException;
+
 /**
  * Méthodes utilitaire permettant de créer une Grille à partir d'un fichier texte.
  * Il est attendu que la première ligne contiennet : le symbole de case vide, suivi des symboles possibles dans la grille (en UTF-8).

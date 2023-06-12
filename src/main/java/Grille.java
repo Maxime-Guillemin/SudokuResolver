@@ -1,4 +1,8 @@
 import java.util.Set;
+import exception.ElementInterditException;
+import exception.HorsBornesException;
+import exception.ValeurImpossibleException;
+import exception.ValeurInitialeModificationException;
 
 /**
  * Interface de grille de sudoku. Chaque case d'une Grille peut contenir un ElementDeGrille ou null si aucun élément n'est placé.
