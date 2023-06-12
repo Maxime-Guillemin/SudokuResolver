@@ -74,6 +74,6 @@ public interface Grille {
      * @param y     position y dans la grille
      * @return true si la case x,y contient une valeur initiale de la grille.
      */
-    boolean isValeurInitiale(int x,int y);
+    boolean isValeurInitiale(int x,int y) throws HorsBornesException;
 
 }

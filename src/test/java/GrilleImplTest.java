@@ -1,3 +1,7 @@
+import exception.ElementInterditException;
+import exception.HorsBornesException;
+import exception.ValeurImpossibleException;
+import exception.ValeurInitialeModificationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,12 +12,26 @@ import java.util.Set;
 public class GrilleImplTest {
     private GrilleImpl grille;
 
+    private final char UN = '1';
+    private final char DEUX = '2';
+    private final char TROIS = '3';
+
+    private ElementDeGrille[] elements;
+
     //Mise en place avant les tests
     @BeforeEach
-    public void setup() {
+    public void setup(){
         // Initialiser la grille avant chaque test
-        ElementDeGrille[] elements = {ElementDeGrille.UN, ElementDeGrille.DEUX, ElementDeGrille.TROIS};
-        ElementDeGrille[][] grilleTab = new ElementDeGrille[3][3];
+         this.elements = new ElementDeGrille[]{
+                 new ElementDeGrilleImplAsChar(UN),
+                 new ElementDeGrilleImplAsChar(DEUX),
+                 new ElementDeGrilleImplAsChar(TROIS)
+         };
+        ElementDeGrille[][] grilleTab = {
+                {null, null, null},
+                {null, null, null},
+                {null, null, elements[0]}
+        };
         grille = new GrilleImpl(elements, grilleTab);
     }
 
@@ -22,9 +40,9 @@ public class GrilleImplTest {
     public void testConstructorElementsSetCorrectly() {
         // Arrange
         Set<ElementDeGrille> expectedElements = new HashSet<>();
-        expectedElements.add(ElementDeGrille.UN);
-        expectedElements.add(ElementDeGrille.DEUX);
-        expectedElements.add(ElementDeGrille.TROIS);
+        expectedElements.add(elements[0]);
+        expectedElements.add(elements[1]);
+        expectedElements.add(elements[2]);
 
         // Act
         Set<ElementDeGrille> actualElements = grille.getElements();
@@ -45,26 +63,14 @@ public class GrilleImplTest {
         Assertions.assertEquals(expectedDimension, actualDimension);
     }
 
-    @Test
-    public void testConstructorGrilleTabSetCorrectly() {
-        // Arrange
-        ElementDeGrille[][] expectedGrilleTab = new ElementDeGrille[3][3];
-
-        // Act
-        ElementDeGrille[][] actualGrilleTab = grille.getGrilleTab();
-
-        // Assert
-        Assertions.assertArrayEquals(expectedGrilleTab, actualGrilleTab);
-    }
-
     //Série de tests sur getElements
     @Test
     public void testGetElementsReturnCorrectSet() {
         // Arrange
         Set<ElementDeGrille> expectedElements = new HashSet<>();
-        expectedElements.add(ElementDeGrille.UN);
-        expectedElements.add(ElementDeGrille.DEUX);
-        expectedElements.add(ElementDeGrille.TROIS);
+        expectedElements.add(elements[0]);
+        expectedElements.add(elements[1]);
+        expectedElements.add(elements[2]);
 
         // Act
         Set<ElementDeGrille> actualElements = grille.getElements();
@@ -93,7 +99,7 @@ public class GrilleImplTest {
         // Arrange
         int x = 0;
         int y = 0;
-        ElementDeGrille value = ElementDeGrille.UN;
+        ElementDeGrille value = elements[0];
 
         // Act
         grille.setValue(x, y, value);
@@ -108,7 +114,7 @@ public class GrilleImplTest {
         // Arrange
         int x = 4;
         int y = 2;
-        ElementDeGrille value = ElementDeGrille.DEUX;
+        ElementDeGrille value = elements[1];
 
         // Act and Assert
         Assertions.assertThrows(HorsBornesException.class, () -> grille.setValue(x, y, value));
@@ -117,9 +123,9 @@ public class GrilleImplTest {
     @Test
     public void testSetValueInitialValueThrowValeurInitialeModificationException() {
         // Arrange
-        int x = 1;
-        int y = 1;
-        ElementDeGrille value = ElementDeGrille.TROIS;
+        int x = 2;
+        int y = 2;
+        ElementDeGrille value = elements[2];
 
         // Act and Assert
         Assertions.assertThrows(ValeurInitialeModificationException.class, () -> grille.setValue(x, y, value));
@@ -128,11 +134,47 @@ public class GrilleImplTest {
     @Test
     public void testSetValueInvalidValueThrowElementInterditException() {
         // Arrange
-        int x = 2;
+        int x = 1;
         int y = 2;
-        ElementDeGrille value = ElementDeGrille.QUATRE;
+        ElementDeGrille value = new ElementDeGrilleImplAsChar('4');
 
         // Act and Assert
         Assertions.assertThrows(ElementInterditException.class, () -> grille.setValue(x, y, value));
+    }
+
+    @Test
+    public void testIsValeurInitialeWithValueReturnsTrue() throws HorsBornesException {
+        // Arrange
+        int x = 2;
+        int y = 2;
+
+        // Act
+        boolean result = grille.isValeurInitiale(x, y);
+
+        // Assert
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void testIsValeurInitialeWithoutValueReturnsFalse() throws HorsBornesException {
+        // Arrange
+        int x = 1;
+        int y = 0;
+
+        // Act
+        boolean result = grille.isValeurInitiale(x, y);
+
+        // Assert
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void testIsValeurInitialeWithInvalidPositionThrowsHorsBornesException() {
+        // Arrange
+        int x = 5;
+        int y = 0;
+
+        // Act and Assert
+        Assertions.assertThrows(HorsBornesException.class, () -> grille.isValeurInitiale(x, y));
     }
 }

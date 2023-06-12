@@ -10,6 +10,7 @@ public class GrilleImpl implements Grille {
     private Set<ElementDeGrille> elements;
     private int dimension;
     private ElementDeGrille[][] grilleTab;
+    private ElementDeGrille[][] grilleTabInitiale;
 
     public GrilleImpl(ElementDeGrille[] elements, ElementDeGrille[][] grilleTab) {
         this.elements = new HashSet<>();
@@ -18,6 +19,7 @@ public class GrilleImpl implements Grille {
         }
         this.dimension = grilleTab.length;
         this.grilleTab = grilleTab;
+        this.grilleTabInitiale = grilleTab;
     }
 
     @Override
@@ -79,8 +81,12 @@ public class GrilleImpl implements Grille {
     }
 
     @Override
-    public boolean isValeurInitiale(int x, int y) {
-        // Ajoutez la logique pour vérifier si la case contient une valeur initiale
-        return false;
+    public boolean isValeurInitiale(int x, int y) throws HorsBornesException {
+        // Vérifier si la position (x, y) est en dehors des limites de la grille
+        if (x < 0 || x >= dimension || y < 0 || y >= dimension) {
+            throw new HorsBornesException("Position en dehors des limites de la grille.");
+        }
+
+        return grilleTabInitiale[x][y] != null;
     }
 }
