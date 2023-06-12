@@ -12,7 +12,7 @@ import java.io.InputStream;
 public class GrilleParserTest {
 
     @Test
-    public void testParse_WithValidInput() {
+    public void testParseWithValidInput() {
         String input = "-1234\n" +
                 "2---\n" +
                 "1--3\n" +
