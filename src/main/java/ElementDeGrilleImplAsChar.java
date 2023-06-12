@@ -1,5 +1,9 @@
 public class ElementDeGrilleImplAsChar implements ElementDeGrille {
-    public ElementDeGrilleImplAsChar(char value) {
+    private char value;
 
+    public ElementDeGrilleImplAsChar(char value) {
+        this.value = value;
     }
+
+    // Ajoutez les méthodes nécessaires
 }
