@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class GrilleImplTest {
     private GrilleImpl grille;
 
@@ -117,7 +119,7 @@ public class GrilleImplTest {
         ElementDeGrille value = elements[1];
 
         // Act and Assert
-        Assertions.assertThrows(HorsBornesException.class, () -> grille.setValue(x, y, value));
+        assertThrows(HorsBornesException.class, () -> grille.setValue(x, y, value));
     }
 
     @Test
@@ -128,7 +130,7 @@ public class GrilleImplTest {
         ElementDeGrille value = elements[2];
 
         // Act and Assert
-        Assertions.assertThrows(ValeurInitialeModificationException.class, () -> grille.setValue(x, y, value));
+        assertThrows(ValeurInitialeModificationException.class, () -> grille.setValue(x, y, value));
     }
 
     @Test
@@ -139,7 +141,7 @@ public class GrilleImplTest {
         ElementDeGrille value = new ElementDeGrilleImplAsChar('4');
 
         // Act and Assert
-        Assertions.assertThrows(ElementInterditException.class, () -> grille.setValue(x, y, value));
+        assertThrows(ElementInterditException.class, () -> grille.setValue(x, y, value));
     }
 
     @Test
@@ -152,7 +154,7 @@ public class GrilleImplTest {
         boolean result = grille.isValeurInitiale(x, y);
 
         // Assert
-        Assertions.assertTrue(result);
+        assertTrue(result);
     }
 
     @Test
@@ -165,7 +167,7 @@ public class GrilleImplTest {
         boolean result = grille.isValeurInitiale(x, y);
 
         // Assert
-        Assertions.assertFalse(result);
+        assertFalse(result);
     }
 
     @Test
@@ -175,6 +177,46 @@ public class GrilleImplTest {
         int y = 0;
 
         // Act and Assert
-        Assertions.assertThrows(HorsBornesException.class, () -> grille.isValeurInitiale(x, y));
+        assertThrows(HorsBornesException.class, () -> grille.isValeurInitiale(x, y));
+    }
+
+    @Test
+    public void testIsPossible_ValidValue_ReturnsTrue() throws HorsBornesException, ElementInterditException {
+        int x = 0;
+        int y = 0;
+        ElementDeGrille value = elements[1];
+
+        boolean result = grille.isPossible(x, y, value);
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void testIsPossibleInvalidValueReturnsFalse() throws HorsBornesException, ElementInterditException {
+        int x = 0;
+        int y = 2;
+        ElementDeGrille value = elements[0];
+
+        boolean result = grille.isPossible(x, y, value);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void testIsPossibleOutOfBoundsReturnsException() {
+        int x = -1;
+        int y = 0;
+        ElementDeGrille value = elements[0];
+
+        assertThrows(HorsBornesException.class, () -> grille.isPossible(x, y, value));
+    }
+
+    @Test
+    public void testIsPossible_InvalidElement_ReturnsException() {
+        int x = 0;
+        int y = 0;
+        ElementDeGrille value = new ElementDeGrilleImplAsChar('4');
+
+        assertThrows(ElementInterditException.class, () -> grille.isPossible(x, y, value));
     }
 }

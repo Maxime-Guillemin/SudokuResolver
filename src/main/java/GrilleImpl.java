@@ -74,10 +74,38 @@ public class GrilleImpl implements Grille {
     }
 
     @Override
-    public boolean isPossible(int x, int y, ElementDeGrille value) throws HorsBornesException,
-            ElementInterditException {
-        // Ajoutez la logique pour vérifier si une valeur peut être placée dans la grille
-        return false;
+    public boolean isPossible(int x, int y, ElementDeGrille value) throws HorsBornesException, ElementInterditException {
+        // Vérifier si la position (x, y) est en dehors des limites de la grille
+        if (x < 0 || x >= dimension || y < 0 || y >= dimension) {
+            throw new HorsBornesException("Position en dehors des limites de la grille.");
+        }
+
+        // Vérifier si la valeur value est autorisée dans cette grille
+        if (value != null && !elements.contains(value)) {
+            throw new ElementInterditException("L'élément de grille n'est pas autorisé dans cette grille.");
+        }
+
+        // Vérifier si la valeur value est présente sur la même ligne ou colonne
+        for (int i = 0; i < dimension; i++) {
+            if (grilleTab[x][i] == value || grilleTab[i][y] == value) {
+                return false;
+            }
+        }
+
+        // Calculer les indices du carré contenant la position (x, y)
+        int carreDim = (int) Math.sqrt(dimension);
+        int carreX = (x / carreDim) * carreDim;
+        int carreY = (y / carreDim) * carreDim;
+
+        // Vérifier si la valeur value est présente dans le carré
+        for (int i = carreX; i < carreX + carreDim; i++) {
+            for (int j = carreY; j < carreY + carreDim; j++) {
+                if (grilleTab[i][j] == value) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
