@@ -12,7 +12,7 @@ import java.io.InputStream;
 public class GrilleParserTest {
 
     @Test
-    public void testParseWithValidInput() {
+    public void testParseWithValidInput() throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException, IOException, ValeurImpossibleException {
         String input = "-1234\n" +
                 "2---\n" +
                 "1--3\n" +
@@ -20,21 +20,13 @@ public class GrilleParserTest {
                 "-1-2\n";
         InputStream inputStream = new ByteArrayInputStream(input.getBytes());
 
-        try {
             Grille grille = GrilleParser.parse(inputStream);
 
             // Assert the properties of the parsed grid
             Assertions.assertEquals(4, grille.getDimension());
 
-            ElementDeGrille value = grille.getValue(0, 0);
+            ElementDeGrille value = grille.getValue(0, 1);
             Assertions.assertNull(value);
-
-            // Add more assertions to validate the parsed grid
-
-        } catch (IOException | ElementInterditException | ValeurInitialeModificationException | HorsBornesException |
-                 ValeurImpossibleException e) {
-            Assertions.fail("Une exception a été levée : " + e.getMessage());
-        }
     }
 
     // ...

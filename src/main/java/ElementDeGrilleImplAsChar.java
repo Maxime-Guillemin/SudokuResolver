@@ -6,4 +6,10 @@ public class ElementDeGrilleImplAsChar implements ElementDeGrille {
     }
 
     // Ajoutez les méthodes nécessaires
+
+
+    @Override
+    public String toString() {
+        return  String.valueOf(value) ;
+    }
 }
