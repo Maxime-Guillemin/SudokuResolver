@@ -15,6 +15,11 @@ public class GrilleImplTest {
     private GrilleImpl grille;
     private GrilleImpl grilleComplete;
 
+    private final int INTMOINSUN = -1;
+    private final int INTUN = 1;
+    private final int INTDEUX = 2;
+    private final int INTTROIS = 3;
+    private final int INTQUATRE = 4;
     private final char UN = '1';
     private final char DEUX = '2';
     private final char TROIS = '3';
@@ -131,12 +136,19 @@ public class GrilleImplTest {
     @Test
     public void testSetValueInvalidPositionThrowHorsBornesException() {
         // Arrange
-        int x = 4;
-        int y = 2;
         ElementDeGrille value = elements[1];
 
         // Act and Assert
-        assertThrows(HorsBornesException.class, () -> grille.setValue(x, y, value));
+        assertThrows(HorsBornesException.class, () -> grille.setValue(INTDEUX, INTQUATRE, value));
+
+        // Act and Assert
+        assertThrows(HorsBornesException.class, () -> grille.setValue(INTQUATRE, INTDEUX, value));
+
+        // Act and Assert
+        assertThrows(HorsBornesException.class, () -> grille.setValue(INTMOINSUN, INTDEUX, value));
+
+        // Act and Assert
+        assertThrows(HorsBornesException.class, () -> grille.setValue(INTDEUX, INTMOINSUN, value));
     }
 
     @Test
@@ -209,12 +221,42 @@ public class GrilleImplTest {
     }
 
     @Test
-    public void testIsPossibleInvalidValueReturnsFalse() throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
+    public void testIsPossibleInvalidValueYReturnsFalse() throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
         int x = 0;
         int y = 2;
         ElementDeGrille value = elements[0];
 
         boolean result = grille.isPossible(x, y, value);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void testIsPossibleInvalidValueXReturnsFalse() throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
+        int x = 2;
+        int y = 0;
+        ElementDeGrille value = elements[0];
+
+        boolean result = grille.isPossible(x, y, value);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void testIsPossibleInvalidValueCarreReturnsFalse() throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
+        int x = 0;
+        int y = 2;
+        ElementDeGrille value = elements[1];
+
+        ElementDeGrille[][] grilleTabQuatre = {
+                {elements[0], elements[0], null, elements[0]},
+                {elements[0], elements[0], elements[0], elements[1]},
+                {elements[0], elements[0], elements[0], elements[0]},
+                {elements[0], elements[0], elements[0], elements[0]}
+        };
+        Grille grilleQuatre = new GrilleImpl(elements, grilleTabQuatre);
+
+        boolean result = grilleQuatre.isPossible(x, y, value);
 
         assertFalse(result);
     }
