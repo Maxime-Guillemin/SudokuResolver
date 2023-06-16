@@ -44,6 +44,19 @@ public class GrilleImplTest {
         grilleComplete = new GrilleImpl(elements, grilleTabComplete);
     }
 
+    @Test
+    public void testProtectionGrilleTab() throws HorsBornesException {
+        ElementDeGrille[][] grilleTab = {
+                {null, null, null},
+                {null, null, null},
+                {null, null, elements[0]}
+        };
+        Grille grille = new GrilleImpl(elements, grilleTab);
+        assertEquals(elements[0],grille.getValue(2,2));
+        grilleTab[2][2] = null;
+        assertEquals(elements[0],grille.getValue(2,2));
+    }
+
 
     @Test
     public void testSetElementNull() throws ElementInterditException, HorsBornesException, ValeurInitialeModificationException, ValeurImpossibleException {
