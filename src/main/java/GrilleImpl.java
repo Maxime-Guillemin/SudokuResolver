@@ -36,9 +36,7 @@ public class GrilleImpl implements Grille {
     public void setValue(int x, int y, ElementDeGrille value) throws HorsBornesException, ValeurImpossibleException,
             ElementInterditException, ValeurInitialeModificationException {
         // Vérifier si la position (x, y) est en dehors des limites de la grille
-        if (x < 0 || x >= dimension || y < 0 || y >= dimension) {
-            throw new HorsBornesException("Position en dehors des limites de la grille.");
-        }
+        verifierLimitesGrille(x, y, dimension);
 
         // Vérifier si la case (x, y) contient une valeur initiale de la grille
         if (isValeurInitiale(x, y)) {
@@ -46,9 +44,7 @@ public class GrilleImpl implements Grille {
         }
 
         // Vérifier si la valeur value est autorisée dans cette grille
-        if (value != null && !elements.contains(value)) {
-            throw new ElementInterditException("L'élément de grille n'est pas autorisé dans cette grille.");
-        }
+        verifierElementAutorise(value, elements);
 
         // Définir la valeur de la case (x, y) dans le tableau grilleTab
         grilleTab[x][y] = value;
@@ -58,9 +54,7 @@ public class GrilleImpl implements Grille {
     @Override
     public ElementDeGrille getValue(int x, int y) throws HorsBornesException {
         // Vérifier si la position (x, y) est en dehors des limites de la grille
-        if (x < 0 || x >= dimension || y < 0 || y >= dimension) {
-            throw new HorsBornesException("Position en dehors des limites de la grille.");
-        }
+        verifierLimitesGrille(x, y, dimension);
 
         // Récupérer la valeur de la case (x, y) dans le tableau grilleTab
         return grilleTab[x][y];
@@ -69,21 +63,23 @@ public class GrilleImpl implements Grille {
 
     @Override
     public boolean isComplete() {
-        // Ajoutez la logique pour vérifier si la grille est complète
-        return false;
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                if (grilleTab[i][j] == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean isPossible(int x, int y, ElementDeGrille value) throws HorsBornesException, ElementInterditException {
         // Vérifier si la position (x, y) est en dehors des limites de la grille
-        if (x < 0 || x >= dimension || y < 0 || y >= dimension) {
-            throw new HorsBornesException("Position en dehors des limites de la grille.");
-        }
+        verifierLimitesGrille(x, y, dimension);
 
         // Vérifier si la valeur value est autorisée dans cette grille
-        if (value != null && !elements.contains(value)) {
-            throw new ElementInterditException("L'élément de grille n'est pas autorisé dans cette grille.");
-        }
+        verifierElementAutorise(value, elements);
 
         // Vérifier si la valeur value est présente sur la même ligne ou colonne
         for (int i = 0; i < dimension; i++) {
@@ -111,10 +107,20 @@ public class GrilleImpl implements Grille {
     @Override
     public boolean isValeurInitiale(int x, int y) throws HorsBornesException {
         // Vérifier si la position (x, y) est en dehors des limites de la grille
+        verifierLimitesGrille(x, y, dimension);
+
+        return grilleTabInitiale[x][y] != null;
+    }
+
+    public void verifierLimitesGrille(int x, int y, int dimension) throws HorsBornesException {
         if (x < 0 || x >= dimension || y < 0 || y >= dimension) {
             throw new HorsBornesException("Position en dehors des limites de la grille.");
         }
+    }
 
-        return grilleTabInitiale[x][y] != null;
+    public void verifierElementAutorise(Object value, Set<ElementDeGrille> elements) throws ElementInterditException {
+        if (value != null && !elements.contains(value)) {
+            throw new ElementInterditException("L'élément de grille n'est pas autorisé dans cette grille.");
+        }
     }
 }

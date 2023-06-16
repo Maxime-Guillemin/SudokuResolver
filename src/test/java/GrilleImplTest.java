@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GrilleImplTest {
     private GrilleImpl grille;
+    private GrilleImpl grilleComplete;
 
     private final char UN = '1';
     private final char DEUX = '2';
@@ -35,6 +36,12 @@ public class GrilleImplTest {
                 {null, null, elements[0]}
         };
         grille = new GrilleImpl(elements, grilleTab);
+        ElementDeGrille[][] grilleTabComplete = {
+                {elements[0], elements[0], elements[0]},
+                {elements[0], elements[0], elements[0]},
+                {elements[0], elements[0], elements[0]}
+        };
+        grilleComplete = new GrilleImpl(elements, grilleTabComplete);
     }
 
     //Mise en place des tests sur le constructeur
@@ -218,5 +225,18 @@ public class GrilleImplTest {
         ElementDeGrille value = new ElementDeGrilleImplAsChar('4');
 
         assertThrows(ElementInterditException.class, () -> grille.isPossible(x, y, value));
+    }
+
+    //Série de tests sur isComplete
+    @Test
+    public void testIsCompleteReturnsTrue() {
+        boolean result = grilleComplete.isComplete();
+        assertTrue(result);
+    }
+
+    @Test
+    public void testIsCompleteReturnsFalse() {
+        boolean result = grille.isComplete();
+        assertFalse(result);
     }
 }
