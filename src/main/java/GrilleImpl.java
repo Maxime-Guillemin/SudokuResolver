@@ -83,7 +83,7 @@ public class GrilleImpl implements Grille {
 
         // Vérifier si la valeur value est présente sur la même ligne ou colonne
         for (int i = 0; i < dimension; i++) {
-            if (grilleTab[x][i] == value || grilleTab[i][y] == value) {
+            if (grilleTab[x][i] == value || grilleTab[i][y] == value ) {
                 return false;
             }
         }
@@ -96,7 +96,7 @@ public class GrilleImpl implements Grille {
         // Vérifier si la valeur value est présente dans le carré
         for (int i = carreX; i < carreX + carreDim; i++) {
             for (int j = carreY; j < carreY + carreDim; j++) {
-                if (grilleTab[i][j] == value) {
+                if (grilleTab[i][j] == value ) {
                     return false;
                 }
             }

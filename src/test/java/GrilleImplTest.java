@@ -44,6 +44,24 @@ public class GrilleImplTest {
         grilleComplete = new GrilleImpl(elements, grilleTabComplete);
     }
 
+
+    @Test
+    public void testSetElementNull() throws ElementInterditException, HorsBornesException, ValeurInitialeModificationException, ValeurImpossibleException {
+        assertTrue(grille.isValeurInitiale(2,2 ));
+        assertFalse(grille.isPossible(2,2,null));
+
+        grille.setValue(0,0,elements[1]);
+        assertFalse(grille.isValeurInitiale(0,0 ));
+        assertTrue(grille.isPossible(0,0,null));
+    }
+
+    @Test
+    public void testElementEquals() throws ElementInterditException, HorsBornesException {
+        assertFalse(grille.isPossible(2,1,elements[0]));
+        assertFalse(grille.isPossible(2,1,new ElementDeGrilleImplAsChar(UN)));
+    }
+
+
     //Mise en place des tests sur le constructeur
     @Test
     public void testConstructorElementsSetCorrectly() {
