@@ -16,8 +16,8 @@ public class GrilleImpl implements Grille {
         this.elements = new HashSet<>();
         for (ElementDeGrille element : elements) {
             this.elements.add(element);
-            this.dimension = grilleTab.length;
         }
+        this.dimension = grilleTab.length;
         this.grilleTab = grilleTab;
         this.grilleTabInitiale = new ElementDeGrille[dimension][dimension];
         for (int i = 0; i < grilleTab.length; i++) {
@@ -51,7 +51,6 @@ public class GrilleImpl implements Grille {
         grilleTab[x][y] = value;
     }
 
-
     @Override
     public ElementDeGrille getValue(int x, int y) throws HorsBornesException {
         // Vérifier si la position (x, y) est en dehors des limites de la grille
@@ -60,7 +59,6 @@ public class GrilleImpl implements Grille {
         // Récupérer la valeur de la case (x, y) dans le tableau grilleTab
         return grilleTab[x][y];
     }
-
 
     @Override
     public boolean isComplete() {
@@ -76,10 +74,9 @@ public class GrilleImpl implements Grille {
 
     @Override
     public boolean isPossible(int x, int y, ElementDeGrille value) throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
-
         verifierModificationValeurInitiale(x, y);
 
-        if(value != null) {
+        if (value != null) {
             // Vérifier si la position (x, y) est en dehors des limites de la grille
             verifierLimitesGrille(x, y, dimension);
 
@@ -124,7 +121,7 @@ public class GrilleImpl implements Grille {
         }
     }
 
-    public void verifierElementAutorise(Object value, Set<ElementDeGrille> elements) throws ElementInterditException {
+    public void verifierElementAutorise(ElementDeGrille value, Set<ElementDeGrille> elements) throws ElementInterditException {
         if (!elements.contains(value)) {
             throw new ElementInterditException("L'élément de grille n'est pas autorisé dans cette grille.");
         }
@@ -135,5 +132,4 @@ public class GrilleImpl implements Grille {
             throw new ValeurInitialeModificationException("Impossible de modifier une valeur initiale de la grille.");
         }
     }
-
 }
