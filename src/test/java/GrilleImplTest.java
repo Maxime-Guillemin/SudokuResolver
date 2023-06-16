@@ -239,4 +239,30 @@ public class GrilleImplTest {
         boolean result = grille.isComplete();
         assertFalse(result);
     }
+
+    // Teste si getValue renvoie la valeur correcte pour une position donnée
+    @Test
+    public void testGetValueReturnsCorrectValue() throws HorsBornesException {
+        // Arrange
+        int x = 2;
+        int y = 2;
+        ElementDeGrille expectedValue = elements[0];
+
+        // Act
+        ElementDeGrille actualValue = grille.getValue(x, y);
+
+        // Assert
+        assertEquals(expectedValue, actualValue);
+    }
+
+    // Teste si getValue lance une exception HorsBornesException pour une position invalide
+    @Test
+    public void testGetValueThrowsHorsBornesExceptionForInvalidPosition() {
+        // Arrange
+        int x = 4;
+        int y = 1;
+
+        // Act and Assert
+        assertThrows(HorsBornesException.class, () -> grille.getValue(x, y));
+    }
 }
