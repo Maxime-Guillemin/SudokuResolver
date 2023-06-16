@@ -67,7 +67,7 @@ public interface Grille {
      * @throws ElementInterditException si value n'est pas un caractere pouvant être mis dans la grille
      */
     boolean isPossible(int x, int y, ElementDeGrille value)
-            throws HorsBornesException, ElementInterditException;
+            throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException;
 
     /**
      * @param x     position x dans la grille

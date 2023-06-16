@@ -9,17 +9,20 @@ import java.util.HashSet;
 public class GrilleImpl implements Grille {
     private Set<ElementDeGrille> elements;
     private int dimension;
-    private ElementDeGrille[][] grilleTab;
-    private ElementDeGrille[][] grilleTabInitiale;
+    private final ElementDeGrille[][] grilleTab;
+    private final ElementDeGrille[][] grilleTabInitiale;
 
     public GrilleImpl(ElementDeGrille[] elements, ElementDeGrille[][] grilleTab) {
         this.elements = new HashSet<>();
         for (ElementDeGrille element : elements) {
             this.elements.add(element);
+            this.dimension = grilleTab.length;
         }
-        this.dimension = grilleTab.length;
         this.grilleTab = grilleTab;
-        this.grilleTabInitiale = grilleTab;
+        this.grilleTabInitiale = new ElementDeGrille[dimension][dimension];
+        for (int i = 0; i < grilleTab.length; i++) {
+            this.grilleTabInitiale[i] = grilleTab[i].clone();
+        }
     }
 
     @Override
@@ -39,9 +42,7 @@ public class GrilleImpl implements Grille {
         verifierLimitesGrille(x, y, dimension);
 
         // Vérifier si la case (x, y) contient une valeur initiale de la grille
-        if (isValeurInitiale(x, y)) {
-            throw new ValeurInitialeModificationException("Impossible de modifier une valeur initiale de la grille.");
-        }
+        verifierModificationValeurInitiale(x, y);
 
         // Vérifier si la valeur value est autorisée dans cette grille
         verifierElementAutorise(value, elements);
@@ -74,32 +75,38 @@ public class GrilleImpl implements Grille {
     }
 
     @Override
-    public boolean isPossible(int x, int y, ElementDeGrille value) throws HorsBornesException, ElementInterditException {
-        // Vérifier si la position (x, y) est en dehors des limites de la grille
-        verifierLimitesGrille(x, y, dimension);
+    public boolean isPossible(int x, int y, ElementDeGrille value) throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
 
-        // Vérifier si la valeur value est autorisée dans cette grille
-        verifierElementAutorise(value, elements);
+        verifierModificationValeurInitiale(x, y);
 
-        // Vérifier si la valeur value est présente sur la même ligne ou colonne
-        for (int i = 0; i < dimension; i++) {
-            if (grilleTab[x][i] == value || grilleTab[i][y] == value ) {
-                return false;
-            }
-        }
+        if(value != null) {
+            // Vérifier si la position (x, y) est en dehors des limites de la grille
+            verifierLimitesGrille(x, y, dimension);
 
-        // Calculer les indices du carré contenant la position (x, y)
-        int carreDim = (int) Math.sqrt(dimension);
-        int carreX = (x / carreDim) * carreDim;
-        int carreY = (y / carreDim) * carreDim;
+            // Vérifier si la valeur value est autorisée dans cette grille
+            verifierElementAutorise(value, elements);
 
-        // Vérifier si la valeur value est présente dans le carré
-        for (int i = carreX; i < carreX + carreDim; i++) {
-            for (int j = carreY; j < carreY + carreDim; j++) {
-                if (grilleTab[i][j] == value ) {
+            // Vérifier si la valeur value est présente sur la même ligne ou colonne
+            for (int i = 0; i < dimension; i++) {
+                if (grilleTab[x][i] == value || grilleTab[i][y] == value) {
                     return false;
                 }
             }
+
+            // Calculer les indices du carré contenant la position (x, y)
+            int carreDim = (int) Math.sqrt(dimension);
+            int carreX = (x / carreDim) * carreDim;
+            int carreY = (y / carreDim) * carreDim;
+
+            // Vérifier si la valeur value est présente dans le carré
+            for (int i = carreX; i < carreX + carreDim; i++) {
+                for (int j = carreY; j < carreY + carreDim; j++) {
+                    if (grilleTab[i][j] == value) {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
         return true;
     }
@@ -108,7 +115,6 @@ public class GrilleImpl implements Grille {
     public boolean isValeurInitiale(int x, int y) throws HorsBornesException {
         // Vérifier si la position (x, y) est en dehors des limites de la grille
         verifierLimitesGrille(x, y, dimension);
-
         return grilleTabInitiale[x][y] != null;
     }
 
@@ -119,8 +125,15 @@ public class GrilleImpl implements Grille {
     }
 
     public void verifierElementAutorise(Object value, Set<ElementDeGrille> elements) throws ElementInterditException {
-        if (value != null && !elements.contains(value)) {
+        if (!elements.contains(value)) {
             throw new ElementInterditException("L'élément de grille n'est pas autorisé dans cette grille.");
         }
     }
+
+    private void verifierModificationValeurInitiale(int x, int y) throws ValeurInitialeModificationException, HorsBornesException {
+        if (isValeurInitiale(x, y)) {
+            throw new ValeurInitialeModificationException("Impossible de modifier une valeur initiale de la grille.");
+        }
+    }
+
 }

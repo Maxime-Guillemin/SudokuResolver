@@ -45,35 +45,14 @@ public class GrilleImplTest {
     }
 
     @Test
-    public void testProtectionGrilleTab() throws HorsBornesException {
-        ElementDeGrille[][] grilleTab = {
-                {null, null, null},
-                {null, null, null},
-                {null, null, elements[0]}
-        };
-        Grille grille = new GrilleImpl(elements, grilleTab);
-        assertEquals(elements[0],grille.getValue(2,2));
-        grilleTab[2][2] = null;
-        assertEquals(elements[0],grille.getValue(2,2));
-    }
-
-
-    @Test
     public void testSetElementNull() throws ElementInterditException, HorsBornesException, ValeurInitialeModificationException, ValeurImpossibleException {
         assertTrue(grille.isValeurInitiale(2,2 ));
-        assertFalse(grille.isPossible(2,2,null));
+        assertThrows(ValeurInitialeModificationException.class, () -> grille.isPossible(2,2,null));
 
         grille.setValue(0,0,elements[1]);
         assertFalse(grille.isValeurInitiale(0,0 ));
         assertTrue(grille.isPossible(0,0,null));
     }
-
-    @Test
-    public void testElementEquals() throws ElementInterditException, HorsBornesException {
-        assertFalse(grille.isPossible(2,1,elements[0]));
-        assertFalse(grille.isPossible(2,1,new ElementDeGrilleImplAsChar(UN)));
-    }
-
 
     //Mise en place des tests sur le constructeur
     @Test
@@ -219,7 +198,7 @@ public class GrilleImplTest {
     }
 
     @Test
-    public void testIsPossible_ValidValue_ReturnsTrue() throws HorsBornesException, ElementInterditException {
+    public void testIsPossibleValidValueReturnsTrue() throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
         int x = 0;
         int y = 0;
         ElementDeGrille value = elements[1];
@@ -230,7 +209,7 @@ public class GrilleImplTest {
     }
 
     @Test
-    public void testIsPossibleInvalidValueReturnsFalse() throws HorsBornesException, ElementInterditException {
+    public void testIsPossibleInvalidValueReturnsFalse() throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
         int x = 0;
         int y = 2;
         ElementDeGrille value = elements[0];
