@@ -2,7 +2,6 @@ import exception.ElementInterditException;
 import exception.HorsBornesException;
 import exception.ValeurImpossibleException;
 import exception.ValeurInitialeModificationException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,14 +14,15 @@ public class GrilleImplTest {
     private GrilleImpl grille;
     private GrilleImpl grilleComplete;
 
-    private final int INTMOINSUN = -1;
-    private final int INTUN = 1;
-    private final int INTDEUX = 2;
-    private final int INTTROIS = 3;
-    private final int INTQUATRE = 4;
-    private final char UN = '1';
-    private final char DEUX = '2';
-    private final char TROIS = '3';
+    private static final int INTMOINSUN = -1;
+    private static final int INTZERO = 0;
+    private static final int INTUN = 1;
+    private static final int INTDEUX = 2;
+    private static final int INTTROIS = 3;
+    private static final int INTQUATRE = 4;
+    private static final char UN = '1';
+    private static final char DEUX = '2';
+    private static final char TROIS = '3';
 
     private ElementDeGrille[] elements;
 
@@ -51,12 +51,12 @@ public class GrilleImplTest {
 
     @Test
     public void testSetElementNull() throws ElementInterditException, HorsBornesException, ValeurInitialeModificationException, ValeurImpossibleException {
-        assertTrue(grille.isValeurInitiale(2,2 ));
-        assertThrows(ValeurInitialeModificationException.class, () -> grille.isPossible(2,2,null));
+        assertTrue(grille.isValeurInitiale(INTDEUX, INTDEUX));
+        assertThrows(ValeurInitialeModificationException.class, () -> grille.isPossible(INTDEUX,INTDEUX,null));
 
-        grille.setValue(0,0,elements[1]);
-        assertFalse(grille.isValeurInitiale(0,0 ));
-        assertTrue(grille.isPossible(0,0,null));
+        grille.setValue(INTZERO,INTZERO,elements[1]);
+        assertFalse(grille.isValeurInitiale(INTZERO,INTZERO ));
+        assertTrue(grille.isPossible(INTZERO,INTZERO,null));
     }
 
     //Mise en place des tests sur le constructeur
@@ -72,19 +72,19 @@ public class GrilleImplTest {
         Set<ElementDeGrille> actualElements = grille.getElements();
 
         // Assert
-        Assertions.assertEquals(expectedElements, actualElements);
+        assertEquals(expectedElements, actualElements);
     }
 
     @Test
     public void testConstructorDimensionSetCorrectly() {
         // Arrange
-        int expectedDimension = 3;
+        int expectedDimension = INTTROIS;
 
         // Act
         int actualDimension = grille.getDimension();
 
         // Assert
-        Assertions.assertEquals(expectedDimension, actualDimension);
+        assertEquals(expectedDimension, actualDimension);
     }
 
     //Série de tests sur getElements
@@ -100,20 +100,20 @@ public class GrilleImplTest {
         Set<ElementDeGrille> actualElements = grille.getElements();
 
         // Assert
-        Assertions.assertEquals(expectedElements, actualElements);
+        assertEquals(expectedElements, actualElements);
     }
 
     //Série de tests sur getDimension
     @Test
     public void testGetDimensionReturnCorrectValue() {
         // Arrange
-        int expectedDimension = 3;
+        int expectedDimension = INTTROIS;
 
         // Act
         int actualDimension = grille.getDimension();
 
         // Assert
-        Assertions.assertEquals(expectedDimension, actualDimension);
+        assertEquals(expectedDimension, actualDimension);
     }
 
     //Série de tests sur SetValue
@@ -121,8 +121,8 @@ public class GrilleImplTest {
     public void testSetValueValidValueSuccess() throws HorsBornesException, ValeurImpossibleException,
             ElementInterditException, ValeurInitialeModificationException {
         // Arrange
-        int x = 0;
-        int y = 0;
+        int x = INTZERO;
+        int y = INTZERO;
         ElementDeGrille value = elements[0];
 
         // Act
@@ -130,7 +130,7 @@ public class GrilleImplTest {
 
         // Assert
         ElementDeGrille result = grille.getValue(x, y);
-        Assertions.assertEquals(value, result);
+        assertEquals(value, result);
     }
 
     @Test
@@ -154,8 +154,8 @@ public class GrilleImplTest {
     @Test
     public void testSetValueInitialValueThrowValeurInitialeModificationException() {
         // Arrange
-        int x = 2;
-        int y = 2;
+        int x = INTDEUX;
+        int y = INTDEUX;
         ElementDeGrille value = elements[2];
 
         // Act and Assert
@@ -165,8 +165,8 @@ public class GrilleImplTest {
     @Test
     public void testSetValueInvalidValueThrowElementInterditException() {
         // Arrange
-        int x = 1;
-        int y = 2;
+        int x = INTUN;
+        int y = INTDEUX;
         ElementDeGrille value = new ElementDeGrilleImplAsChar('4');
 
         // Act and Assert
@@ -176,8 +176,8 @@ public class GrilleImplTest {
     @Test
     public void testIsValeurInitialeWithValueReturnsTrue() throws HorsBornesException {
         // Arrange
-        int x = 2;
-        int y = 2;
+        int x = INTDEUX;
+        int y = INTDEUX;
 
         // Act
         boolean result = grille.isValeurInitiale(x, y);
@@ -189,8 +189,8 @@ public class GrilleImplTest {
     @Test
     public void testIsValeurInitialeWithoutValueReturnsFalse() throws HorsBornesException {
         // Arrange
-        int x = 1;
-        int y = 0;
+        int x = INTUN;
+        int y = INTZERO;
 
         // Act
         boolean result = grille.isValeurInitiale(x, y);
@@ -202,8 +202,8 @@ public class GrilleImplTest {
     @Test
     public void testIsValeurInitialeWithInvalidPositionThrowsHorsBornesException() {
         // Arrange
-        int x = 5;
-        int y = 0;
+        int x = INTQUATRE;
+        int y = INTZERO;
 
         // Act and Assert
         assertThrows(HorsBornesException.class, () -> grille.isValeurInitiale(x, y));
@@ -211,8 +211,8 @@ public class GrilleImplTest {
 
     @Test
     public void testIsPossibleValidValueReturnsTrue() throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
-        int x = 0;
-        int y = 0;
+        int x = INTZERO;
+        int y = INTZERO;
         ElementDeGrille value = elements[1];
 
         boolean result = grille.isPossible(x, y, value);
@@ -222,8 +222,8 @@ public class GrilleImplTest {
 
     @Test
     public void testIsPossibleInvalidValueYReturnsFalse() throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
-        int x = 0;
-        int y = 2;
+        int x = INTZERO;
+        int y = INTDEUX;
         ElementDeGrille value = elements[0];
 
         boolean result = grille.isPossible(x, y, value);
@@ -233,8 +233,8 @@ public class GrilleImplTest {
 
     @Test
     public void testIsPossibleInvalidValueXReturnsFalse() throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
-        int x = 2;
-        int y = 0;
+        int x = INTDEUX;
+        int y = INTZERO;
         ElementDeGrille value = elements[0];
 
         boolean result = grille.isPossible(x, y, value);
@@ -244,8 +244,8 @@ public class GrilleImplTest {
 
     @Test
     public void testIsPossibleInvalidValueCarreReturnsFalse() throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
-        int x = 0;
-        int y = 2;
+        int x = INTZERO;
+        int y = INTDEUX;
         ElementDeGrille value = elements[1];
 
         ElementDeGrille[][] grilleTabQuatre = {
@@ -263,8 +263,8 @@ public class GrilleImplTest {
 
     @Test
     public void testIsPossibleOutOfBoundsReturnsException() {
-        int x = -1;
-        int y = 0;
+        int x = INTMOINSUN;
+        int y = INTZERO;
         ElementDeGrille value = elements[0];
 
         assertThrows(HorsBornesException.class, () -> grille.isPossible(x, y, value));
@@ -272,8 +272,8 @@ public class GrilleImplTest {
 
     @Test
     public void testIsPossible_InvalidElement_ReturnsException() {
-        int x = 0;
-        int y = 0;
+        int x = INTZERO;
+        int y = INTZERO;
         ElementDeGrille value = new ElementDeGrilleImplAsChar('4');
 
         assertThrows(ElementInterditException.class, () -> grille.isPossible(x, y, value));
@@ -296,8 +296,8 @@ public class GrilleImplTest {
     @Test
     public void testGetValueReturnsCorrectValue() throws HorsBornesException {
         // Arrange
-        int x = 2;
-        int y = 2;
+        int x = INTDEUX;
+        int y = INTDEUX;
         ElementDeGrille expectedValue = elements[0];
 
         // Act
@@ -311,8 +311,8 @@ public class GrilleImplTest {
     @Test
     public void testGetValueThrowsHorsBornesExceptionForInvalidPosition() {
         // Arrange
-        int x = 4;
-        int y = 1;
+        int x = INTQUATRE;
+        int y = INTUN;
 
         // Act and Assert
         assertThrows(HorsBornesException.class, () -> grille.getValue(x, y));

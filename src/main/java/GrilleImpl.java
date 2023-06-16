@@ -1,3 +1,7 @@
+/**
+ * package-info.java: toutes les infos sur le package.
+ */
+
 import exception.ElementInterditException;
 import exception.HorsBornesException;
 import exception.ValeurImpossibleException;
@@ -6,62 +10,121 @@ import exception.ValeurInitialeModificationException;
 import java.util.Set;
 import java.util.HashSet;
 
+/**
+ * Implémentation de l'interface Grille.
+ */
 public class GrilleImpl implements Grille {
+    /**
+     * Liste des éléments possibles dans la grille.
+     */
     private Set<ElementDeGrille> elements;
+    /**
+     * Dimension de la grille.
+     */
     private int dimension;
+    /**
+     * Grille actuelle.
+     */
     private final ElementDeGrille[][] grilleTab;
+    /**
+     * Grille initiale.
+     */
     private final ElementDeGrille[][] grilleTabInitiale;
 
-    public GrilleImpl(ElementDeGrille[] elements, ElementDeGrille[][] grilleTab) {
+    /**
+     * Constructeur de la classe GrilleImpl.
+     *
+     * @param pElements   Les éléments de grille autorisés.
+     * @param pGrilleTab  Le tableau représentant la grille.
+     */
+    public GrilleImpl(final ElementDeGrille[] pElements,
+                      final ElementDeGrille[][] pGrilleTab) {
         this.elements = new HashSet<>();
-        for (ElementDeGrille element : elements) {
+        for (ElementDeGrille element : pElements) {
             this.elements.add(element);
+            this.dimension = pGrilleTab.length;
         }
-        this.dimension = grilleTab.length;
-        this.grilleTab = grilleTab;
+
+        this.dimension = pGrilleTab.length;
+        this.grilleTab = new ElementDeGrille[dimension][dimension];
+        for (int i = 0; i < this.dimension; i++) {
+            this.grilleTab[i] = pGrilleTab[i].clone();
+        }
+
         this.grilleTabInitiale = new ElementDeGrille[dimension][dimension];
-        for (int i = 0; i < grilleTab.length; i++) {
-            this.grilleTabInitiale[i] = grilleTab[i].clone();
+        for (int i = 0; i < this.dimension; i++) {
+            this.grilleTabInitiale[i] = pGrilleTab[i].clone();
         }
     }
 
+    /**
+     * Récupère la liste des éléments du Sudoku.
+     *
+     * @return
+     */
     @Override
-    public Set<ElementDeGrille> getElements() {
-        return elements;
+    public final Set<ElementDeGrille> getElements() {
+        return new HashSet<>(elements);
     }
 
+    /**
+     * Récupère la dimension de la grille.
+     *
+     * @return
+     */
     @Override
-    public int getDimension() {
+    public final int getDimension() {
         return dimension;
     }
 
+
+    /**
+     * Met une valeur dans la grille.
+     *
+     * @param x     position x dans la grille
+     * @param y     position y dans la grille
+     * @param value élément de grille à mettre dans la case,
+     *             null pour vider la case
+     * @throws HorsBornesException
+     * @throws ValeurImpossibleException
+     * @throws ElementInterditException
+     * @throws ValeurInitialeModificationException
+     */
     @Override
-    public void setValue(int x, int y, ElementDeGrille value) throws HorsBornesException, ValeurImpossibleException,
-            ElementInterditException, ValeurInitialeModificationException {
-        // Vérifier si la position (x, y) est en dehors des limites de la grille
+    public final void setValue(final int x, final int y,
+                               final ElementDeGrille value)
+            throws HorsBornesException, ValeurImpossibleException,
+            ElementInterditException,
+            ValeurInitialeModificationException {
+
         verifierLimitesGrille(x, y, dimension);
-
-        // Vérifier si la case (x, y) contient une valeur initiale de la grille
         verifierModificationValeurInitiale(x, y);
-
-        // Vérifier si la valeur value est autorisée dans cette grille
         verifierElementAutorise(value, elements);
-
-        // Définir la valeur de la case (x, y) dans le tableau grilleTab
         grilleTab[x][y] = value;
     }
 
+    /**
+     * Retourne un élément en fonction de la position souhaitée.
+     *
+     * @param x position x dans la grille
+     * @param y position y dans la grille
+     * @return
+     * @throws HorsBornesException
+     */
     @Override
-    public ElementDeGrille getValue(int x, int y) throws HorsBornesException {
-        // Vérifier si la position (x, y) est en dehors des limites de la grille
+    public final ElementDeGrille getValue(final int x, final int y)
+            throws HorsBornesException {
         verifierLimitesGrille(x, y, dimension);
-
-        // Récupérer la valeur de la case (x, y) dans le tableau grilleTab
         return grilleTab[x][y];
     }
 
+    /**
+     * Vérifie que le Sudoku est complet.
+     *
+     * @return
+     */
     @Override
-    public boolean isComplete() {
+    public final boolean isComplete() {
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
                 if (grilleTab[i][j] == null) {
@@ -72,30 +135,34 @@ public class GrilleImpl implements Grille {
         return true;
     }
 
+    /**
+     * Vérifie que la valeur à placer est possible.
+     *
+     * @param x     position x dans la grille
+     * @param y     position y dans la grille
+     * @param value valeur a mettre dans la case
+     * @return
+     * @throws HorsBornesException
+     * @throws ElementInterditException
+     * @throws ValeurInitialeModificationException
+     */
     @Override
-    public boolean isPossible(int x, int y, ElementDeGrille value) throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
+    public final boolean isPossible(final int x, final int y,
+                                    final ElementDeGrille value)
+            throws HorsBornesException,
+            ElementInterditException, ValeurInitialeModificationException {
         verifierModificationValeurInitiale(x, y);
-
         if (value != null) {
-            // Vérifier si la position (x, y) est en dehors des limites de la grille
             verifierLimitesGrille(x, y, dimension);
-
-            // Vérifier si la valeur value est autorisée dans cette grille
             verifierElementAutorise(value, elements);
-
-            // Vérifier si la valeur value est présente sur la même ligne ou colonne
             for (int i = 0; i < dimension; i++) {
                 if (grilleTab[x][i] == value || grilleTab[i][y] == value) {
                     return false;
                 }
             }
-
-            // Calculer les indices du carré contenant la position (x, y)
             int carreDim = (int) Math.sqrt(dimension);
             int carreX = (x / carreDim) * carreDim;
             int carreY = (y / carreDim) * carreDim;
-
-            // Vérifier si la valeur value est présente dans le carré
             for (int i = carreX; i < carreX + carreDim; i++) {
                 for (int j = carreY; j < carreY + carreDim; j++) {
                     if (grilleTab[i][j] == value) {
@@ -103,33 +170,74 @@ public class GrilleImpl implements Grille {
                     }
                 }
             }
-            return true;
         }
         return true;
     }
 
+    /**
+     * Vérifie si la valeur est une valeur initiale.
+     *
+     * @param x     position x dans la grille
+     * @param y     position y dans la grille
+     * @return
+     * @throws HorsBornesException
+     */
     @Override
-    public boolean isValeurInitiale(int x, int y) throws HorsBornesException {
-        // Vérifier si la position (x, y) est en dehors des limites de la grille
+    public final boolean isValeurInitiale(final int x, final int y)
+            throws HorsBornesException {
+
         verifierLimitesGrille(x, y, dimension);
         return grilleTabInitiale[x][y] != null;
     }
 
-    public void verifierLimitesGrille(int x, int y, int dimension) throws HorsBornesException {
-        if (x < 0 || x >= dimension || y < 0 || y >= dimension) {
+    /**
+     * Vérifie le débordement de la grille.
+     *
+     * @param x position x dans la grille
+     * @param y position y dans la grille
+     * @param pDimension
+     * @throws HorsBornesException
+     */
+    private void verifierLimitesGrille(final int x, final int y,
+                                       final int pDimension)
+            throws HorsBornesException {
+
+        if (x < 0 || x >= pDimension || y < 0 || y >= pDimension) {
             throw new HorsBornesException("Position en dehors des limites de la grille.");
         }
     }
 
-    public void verifierElementAutorise(ElementDeGrille value, Set<ElementDeGrille> elements) throws ElementInterditException {
-        if (!elements.contains(value)) {
-            throw new ElementInterditException("L'élément de grille n'est pas autorisé dans cette grille.");
+    /**
+     * Vérifie l'élement selon notre liste autorisée.
+     *
+     * @param value
+     * @param elements
+     * @throws ElementInterditException
+     */
+    private void verifierElementAutorise(final ElementDeGrille value,
+                                         final Set<ElementDeGrille> pElements)
+            throws ElementInterditException {
+        if (!pElements.contains(value)) {
+            throw new ElementInterditException(
+                    "L'élément de grille n'est pas autorisé dans cette grille."
+            );
         }
     }
 
-    private void verifierModificationValeurInitiale(int x, int y) throws ValeurInitialeModificationException, HorsBornesException {
+    /**
+     * Vérifie le non changement du tableau initial.
+     *
+     * @param x position x dans la grille
+     * @param y position y dans la grille
+     * @throws ValeurInitialeModificationException
+     * @throws HorsBornesException
+     */
+    private void verifierModificationValeurInitiale(final int x, final int y)
+            throws ValeurInitialeModificationException, HorsBornesException {
         if (isValeurInitiale(x, y)) {
-            throw new ValeurInitialeModificationException("Impossible de modifier une valeur initiale de la grille.");
+            throw new ValeurInitialeModificationException(
+                    "Impossible de modifier une valeur initiale de la grille."
+            );
         }
     }
 }

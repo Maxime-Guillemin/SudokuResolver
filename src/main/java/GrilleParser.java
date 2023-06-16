@@ -1,3 +1,7 @@
+/**
+ * package-info.java: toutes les infos sur le package.
+ */
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

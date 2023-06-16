@@ -1,3 +1,7 @@
+/**
+ * package-info.java: toutes les infos sur le package.
+ */
+
 import java.util.Objects;
 
 public class ElementDeGrilleImplAsChar implements ElementDeGrille {
