@@ -1,7 +1,16 @@
 package exception;
 
+/**
+ * Implementation HorsBornesException.
+ */
 public class HorsBornesException extends Exception {
-    public HorsBornesException(String message) {
+
+    /**
+     * Met un message personnaliser à notre exception.
+     *
+     * @param message message à afficher
+     */
+    public HorsBornesException(final String message) {
         super(message);
     }
 }

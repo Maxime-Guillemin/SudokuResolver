@@ -5,10 +5,12 @@ import exception.ValeurImpossibleException;
 import exception.ValeurInitialeModificationException;
 
 /**
- * Interface de grille de sudoku. Chaque case d'une Grille peut contenir un ElementDeGrille ou null si aucun élément n'est placé.
+ * Interface de grille de sudoku. Chaque case d'une Grille peut contenir un
+ * ElementDeGrille ou null si aucun élément n'est placé.
  * Une Grille doit toujours respecter les règles du sudoku.
  * <p>
- * Une Grille peut contenir des cases qui ne doivent pas être modifiées (les valeurs initiales de la Grille)
+ * Une Grille peut contenir des cases qui ne doivent pas être modifiées
+ * (les valeurs initiales de la Grille)
  *
  * @author Sébastien Choplin <sebastien.choplin@u-picardie.fr>
  */
@@ -25,7 +27,7 @@ public interface Grille {
     int getDimension();
 
     /**
-     * Affecte une valeur dans une case de la grille, ou null pour 'vider' la case
+     * Affecte une valeur dans une case de la grille, ou null pour 'vider' la case.
      *
      * @param x     position x dans la grille
      * @param y     position y dans la grille

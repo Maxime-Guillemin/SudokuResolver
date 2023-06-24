@@ -193,26 +193,28 @@ public class GrilleImpl implements Grille {
     /**
      * Vérifie le débordement de la grille.
      *
-     * @param x position x dans la grille
-     * @param y position y dans la grille
-     * @param pDimension
-     * @throws HorsBornesException
+     * @param x  position x dans la grille
+     * @param y  position y dans la grille
+     * @param pDimension dimension de la grille
+     * @throws HorsBornesException gestion exception
      */
     private void verifierLimitesGrille(final int x, final int y,
                                        final int pDimension)
             throws HorsBornesException {
 
         if (x < 0 || x >= pDimension || y < 0 || y >= pDimension) {
-            throw new HorsBornesException("Position en dehors des limites de la grille.");
+            throw new HorsBornesException(
+                    "Position en dehors des limites de la grille."
+            );
         }
     }
 
     /**
      * Vérifie l'élement selon notre liste autorisée.
      *
-     * @param value
-     * @param elements
-     * @throws ElementInterditException
+     * @param value  valeur à vérifier
+     * @param pElements liste des éléments
+     * @throws ElementInterditException gestion exception
      */
     private void verifierElementAutorise(final ElementDeGrille value,
                                          final Set<ElementDeGrille> pElements)
@@ -229,8 +231,8 @@ public class GrilleImpl implements Grille {
      *
      * @param x position x dans la grille
      * @param y position y dans la grille
-     * @throws ValeurInitialeModificationException
-     * @throws HorsBornesException
+     * @throws ValeurInitialeModificationException  gestion exception
+     * @throws HorsBornesException  gestion exception
      */
     private void verifierModificationValeurInitiale(final int x, final int y)
             throws ValeurInitialeModificationException, HorsBornesException {
