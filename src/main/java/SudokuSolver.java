@@ -1,12 +1,16 @@
-import exception.ElementInterditException;
-import exception.HorsBornesException;
-import exception.ValeurImpossibleException;
-import exception.ValeurInitialeModificationException;
+/**
+ * Classe pour résoudre un Sudoku.
+ */
+public final class SudokuSolver implements Solveur {
 
-public class SudokuSolver implements Solveur {
-
+    /**
+     * Résoudre la grille de Sudoku.
+     *
+     * @param grille la grille de Sudoku à résoudre
+     * @return true si la grille est résolue, sinon false
+     */
     @Override
-    public boolean solve(Grille grille) {
+    public boolean solve(final Grille grille) {
         // Vérifier si la grille est complète
         if (grille.isComplete()) {
             return true;  // La grille est déjà résolue
@@ -24,7 +28,8 @@ public class SudokuSolver implements Solveur {
                                 // Placer la valeur dans la case
                                 grille.setValue(row, col, value);
 
-                                // Résoudre récursivement la grille avec la nouvelle valeur
+                                // Résoudre récursivement la grille
+                                // avec la nouvelle valeur
                                 if (solve(grille)) {
                                     return true;  // La grille a été résolue
                                 }
@@ -34,7 +39,8 @@ public class SudokuSolver implements Solveur {
                             }
                         }
 
-                        // Aucune valeur possible n'a permis de résoudre la grille
+                        // Aucune valeur possible n'a permis
+                        // de résoudre la grille
                         return false;
                     }
                 } catch (Exception e) {
@@ -45,6 +51,8 @@ public class SudokuSolver implements Solveur {
             }
         }
 
-        return false;  // La grille ne peut pas être résolue car dimension 0,0
+        return false;
+        // La grille ne peut pas être
+        // résolue car dimension 0,0
     }
 }

@@ -1,52 +1,169 @@
+/**
+ * package-info.java: toutes les infos sur le package.
+ */
+
 import exception.ElementInterditException;
 import exception.HorsBornesException;
-import exception.ValeurImpossibleException;
 import exception.ValeurInitialeModificationException;
 
 import java.util.Set;
 
 /**
- * @author Sébastien Choplin <sebastien.choplin@webadvise.fr>
+ * Décorateur de la classe Grille.
+ * Ajoute des fonctionnalités supplémentaires à la grille.
  */
-public class GrilleDecorateur implements  Grille{
+public class GrilleDecorateur implements Grille {
 
+    /**
+     * Notre grille.
+     */
     private final Grille grille;
-    public GrilleDecorateur(Grille grilleC){
-       this.grille=grilleC;
+
+    /**
+     * Constructeur par défaut du GrilleDecorateur.
+     * Initialise la grille avec des éléments par défaut.
+     */
+    public GrilleDecorateur() {
+        ElementDeGrilleImplAsChar[] elements = {
+                new ElementDeGrilleImplAsChar('1'),
+                new ElementDeGrilleImplAsChar('2'),
+                new ElementDeGrilleImplAsChar('3'),
+                new ElementDeGrilleImplAsChar('4'),
+                new ElementDeGrilleImplAsChar('5'),
+                new ElementDeGrilleImplAsChar('6'),
+                new ElementDeGrilleImplAsChar('7'),
+                new ElementDeGrilleImplAsChar('8'),
+                new ElementDeGrilleImplAsChar('9')
+        };
+
+        /**
+         * Indice pour le tableau grilleTab.
+         * La valeur de cette constante est 0.
+         */
+        final int zero = 0;
+
+
+        ElementDeGrille[][] grilleTab = {
+                {elements[zero], elements[zero], elements[zero],
+                        null, null, null, null, null, null},
+                {elements[zero], elements[zero], elements[zero],
+                        null, null, null, null, null, null},
+                {elements[zero], elements[zero], elements[zero],
+                        null, null, null, null, null, null},
+                {null, null, null, null,
+                        null, null, null, null, null},
+                {null, null, null, null,
+                        null, null, null, null, null},
+                {null, null, null, null,
+                        null, null, null, null, null},
+                {null, null, null, null,
+                        null, null, null, null, null},
+                {null, null, null, null,
+                        null, null, null, null, null},
+                {null, null, null, null,
+                        null, null, null, null, null}
+        };
+
+        this.grille = new GrilleImpl(elements, grilleTab);
     }
 
+    /**
+     * Retourne l'ensemble des éléments de la grille.
+     *
+     * @return l'ensemble des éléments de la grille
+     */
     @Override
-    public Set<ElementDeGrille> getElements() {
+    public final Set<ElementDeGrille> getElements() {
         return grille.getElements();
     }
 
+    /**
+     * Retourne la dimension de la grille.
+     *
+     * @return la dimension de la grille
+     */
     @Override
-    public int getDimension() {
+    public final int getDimension() {
         return grille.getDimension();
     }
 
+    /**
+     * Lance une exception pour la méthode setValue.
+     * Cette méthode est volontairement désactivée dans le décorateur.
+     *
+     * @param x     la coordonnée x de l'élément
+     * @param y     la coordonnée y de l'élément
+     * @param value la valeur de l'élément
+     * @throws HorsBornesException toujours lancée pour cette méthode
+     */
     @Override
-    public void setValue(int x, int y, ElementDeGrille value) throws HorsBornesException, ValeurImpossibleException, ElementInterditException, ValeurInitialeModificationException {
-grille.setValue(x,y,value);
+    public final void setValue(final int x,
+                               final int y, final ElementDeGrille value)
+            throws HorsBornesException {
+        throw new HorsBornesException("fausse exception");
     }
 
+    /**
+     * Retourne la valeur de l'élément à la position spécifiée.
+     *
+     * @param x la coordonnée x de l'élément
+     * @param y la coordonnée y de l'élément
+     * @return la valeur de l'élément à la position spécifiée
+     * @throws HorsBornesException si les coordonnées
+     * sont en dehors des bornes de la grille
+     */
     @Override
-    public ElementDeGrille getValue(int x, int y) throws HorsBornesException {
-        return grille.getValue(x,y);
+    public final ElementDeGrille getValue(final int x, final int y)
+            throws HorsBornesException {
+        return grille.getValue(x, y);
     }
 
+    /**
+     * Vérifie si la grille est complète.
+     *
+     * @return true si la grille est complète, false sinon
+     */
     @Override
-    public boolean isComplete() {
+    public final boolean isComplete() {
         return grille.isComplete();
     }
 
+    /**
+     * Vérifie si la valeur spécifiée peut être placée
+     * à la position donnée dans la grille.
+     *
+     * @param x     la coordonnée x de l'élément
+     * @param y     la coordonnée y de l'élément
+     * @param value la valeur à vérifier
+     * @return true si la valeur est possible, false sinon
+     * @throws HorsBornesException
+     * si les coordonnées sont en dehors des bornes de la grille
+     * @throws ElementInterditException
+     * si la valeur est interdite dans la grille
+     * @throws ValeurInitialeModificationException
+     * si la valeur à modifier est une valeur initiale de la grille
+     */
     @Override
-    public boolean isPossible(int x, int y, ElementDeGrille value) throws HorsBornesException, ElementInterditException, ValeurInitialeModificationException {
-        return grille.isPossible(x,y,value);
+    public final boolean isPossible(
+            final int x, final int y, final ElementDeGrille value)
+            throws HorsBornesException, ElementInterditException,
+            ValeurInitialeModificationException {
+        return grille.isPossible(x, y, value);
     }
 
+    /**
+     * Vérifie si l'élément à la position spécifiée
+     * est une valeur initiale de la grille.
+     *
+     * @param x la coordonnée x de l'élément
+     * @param y la coordonnée y de l'élément
+     * @return true si l'élément est une valeur initiale, false sinon
+     * @throws HorsBornesException si les coordonnées
+     * sont en dehors des bornes de la grille
+     */
     @Override
-    public boolean isValeurInitiale(int x, int y) throws HorsBornesException {
-        return grille.isValeurInitiale(x,y);
+    public final boolean isValeurInitiale(final int x, final int y)
+            throws HorsBornesException {
+        return grille.isValeurInitiale(x, y);
     }
 }

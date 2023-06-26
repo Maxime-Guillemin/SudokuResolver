@@ -77,7 +77,6 @@ public class GrilleImpl implements Grille {
         return dimension;
     }
 
-
     /**
      * Met une valeur dans la grille.
      *
