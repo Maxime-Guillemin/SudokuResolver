@@ -42,6 +42,36 @@ public class SudokuSolverTest {
     public static final int IDX_3 = 3;
 
     /**
+     * Indice pour le tableau grille.
+     * La valeur de cette constante est 4.
+     */
+    public static final int IDX_4 = 4;
+
+    /**
+     * Indice pour le tableau grille.
+     * La valeur de cette constante est 5.
+     */
+    public static final int IDX_5 = 5;
+
+    /**
+     * Indice pour le tableau grille.
+     * La valeur de cette constante est 6.
+     */
+    public static final int IDX_6 = 6;
+
+    /**
+     * Indice pour le tableau grille.
+     * La valeur de cette constante est 7.
+     */
+    public static final int IDX_7 = 7;
+
+    /**
+     * Indice pour le tableau grille.
+     * La valeur de cette constante est 8.
+     */
+    public static final int IDX_8 = 8;
+
+    /**
      * Méthode de configuration exécutée avant chaque test.
      * Elle initialise la grille avec des éléments
      * et une configuration par défaut.
@@ -52,15 +82,36 @@ public class SudokuSolverTest {
                 new ElementDeGrilleImplAsChar('1'),
                 new ElementDeGrilleImplAsChar('2'),
                 new ElementDeGrilleImplAsChar('3'),
-                new ElementDeGrilleImplAsChar('4')
+                new ElementDeGrilleImplAsChar('4'),
+                new ElementDeGrilleImplAsChar('5'),
+                new ElementDeGrilleImplAsChar('6'),
+                new ElementDeGrilleImplAsChar('7'),
+                new ElementDeGrilleImplAsChar('8'),
+                new ElementDeGrilleImplAsChar('9')
         };
 
         ElementDeGrille[][] grilleTab = {
-                {elements[IDX_0], elements[IDX_1],
-                        elements[IDX_2], elements[IDX_3]},
-                {null, null, null, null},
-                {null, elements[IDX_2], null, null},
-                {null, null, null, null}
+                {elements[IDX_0], elements[IDX_1], elements[IDX_2],
+                        null, null,
+                        null, null, null, null},
+                {elements[IDX_3], elements[IDX_4], elements[IDX_5],
+                        null, null,
+                        null, null, null, null},
+                {elements[IDX_6], elements[IDX_7], elements[IDX_8],
+                        null, null,
+                        null, null, null, null},
+                {null, null, null, null, null,
+                        null, null, null, null},
+                {null, null, null, null, null,
+                        null, null, null, null},
+                {null, null, null, null, null,
+                        null, null, null, null},
+                {null, null, null, null, null,
+                        null, null, null, null},
+                {null, null, null, null, null,
+                        null, null, null, null},
+                {null, null, null, null, null,
+                        null, null, null, null}
         };
 
         grille = new GrilleImpl(elements, grilleTab);
@@ -106,7 +157,12 @@ public class SudokuSolverTest {
                 new ElementDeGrilleImplAsChar('1'),
                 new ElementDeGrilleImplAsChar('2'),
                 new ElementDeGrilleImplAsChar('3'),
-                new ElementDeGrilleImplAsChar('4')
+                new ElementDeGrilleImplAsChar('4'),
+                new ElementDeGrilleImplAsChar('5'),
+                new ElementDeGrilleImplAsChar('6'),
+                new ElementDeGrilleImplAsChar('7'),
+                new ElementDeGrilleImplAsChar('8'),
+                new ElementDeGrilleImplAsChar('9')
         };
 
         ElementDeGrille[][] grilleTabComplete = {
