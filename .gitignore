@@ -37,5 +37,5 @@ build/
 ### Mac OS ###
 .DS_Store
 
-### Exclusions des fichiers ###
+### Exclusions personnalisées ###
 *.class
