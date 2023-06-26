@@ -39,6 +39,7 @@ public class SudokuSolver implements Solveur {
                     }
                 } catch (Exception e) {
                     // Une exception s'est produite, arrêter la résolution
+                    e.printStackTrace();
                     return false;
                 }
             }

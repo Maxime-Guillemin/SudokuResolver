@@ -1,7 +1,12 @@
 import exception.ElementInterditException;
 import exception.HorsBornesException;
+import exception.ValeurImpossibleException;
+import exception.ValeurInitialeModificationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,6 +65,22 @@ public class SudokuSolverTest {
         // Assert
         assertTrue(result);
         assertTrue(grille.isComplete());
+    }
+
+    @Test
+    public void testExceptionDeGrille() {
+        SudokuSolver solver = new SudokuSolver();
+        boolean result = solver.solve(new GrilleDecorateur(grille){
+            @Override
+            public void setValue(int x, int y, ElementDeGrille value) throws HorsBornesException {
+                throw new HorsBornesException("fausse exception");
+            }
+
+
+        });
+
+        assertFalse(result);
+
     }
 
     /**
