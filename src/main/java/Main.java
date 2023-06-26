@@ -22,8 +22,7 @@ public class Main {
 
             if (solved) {
                 // Affichage de la grille résolue
-                System.out.println("Grille résolue :");
-                System.out.println(grille);
+                System.out.println("Grille résolue");
             } else {
                 System.out.println("La grille ne peut pas être résolue.");
             }
