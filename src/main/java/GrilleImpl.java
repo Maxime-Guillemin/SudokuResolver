@@ -132,6 +132,11 @@ public class GrilleImpl implements Grille {
                 }
             }
         }
+
+        if (dimension == 0) {
+            return false;
+        }
+
         return true;
     }
 
@@ -219,7 +224,7 @@ public class GrilleImpl implements Grille {
     private void verifierElementAutorise(final ElementDeGrille value,
                                          final Set<ElementDeGrille> pElements)
             throws ElementInterditException {
-        if (!pElements.contains(value)) {
+        if (!pElements.contains(value) && value != null) {
             throw new ElementInterditException(
                     "L'élément de grille n'est pas autorisé dans cette grille."
             );

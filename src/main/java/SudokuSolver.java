@@ -38,13 +38,12 @@ public class SudokuSolver implements Solveur {
                         return false;
                     }
                 } catch (Exception e) {
-                    System.out.println(e);
                     // Une exception s'est produite, arrêter la résolution
                     return false;
                 }
             }
         }
 
-        return false;  // La grille ne peut pas être résolue
+        return false;  // La grille ne peut pas être résolue car dimension 0,0
     }
 }

@@ -1,3 +1,5 @@
+import exception.ElementInterditException;
+import exception.HorsBornesException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -48,7 +50,7 @@ public class SudokuSolverTest {
      * Teste la résolution du sudoku avec une grille valide.
      */
     @Test
-    public final void testSolveValidGrid() {
+    public final void testSolvableGrid() {
         // Arrange
         SudokuSolver solver = new SudokuSolver();
 
@@ -106,23 +108,16 @@ public class SudokuSolverTest {
      * Teste la résolution du sudoku avec une grille invalide.
      */
     @Test
-    public final void testSolveInvalidGrid() {
+    public final void testSolveInsolvableGrid() {
         ElementDeGrilleImplAsChar[] elements = {
                 new ElementDeGrilleImplAsChar('1'),
-                new ElementDeGrilleImplAsChar('2'),
-                new ElementDeGrilleImplAsChar('3'),
-                new ElementDeGrilleImplAsChar('4'),
-                new ElementDeGrilleImplAsChar('5'),
-                new ElementDeGrilleImplAsChar('6'),
-                new ElementDeGrilleImplAsChar('7'),
-                new ElementDeGrilleImplAsChar('8'),
-                new ElementDeGrilleImplAsChar('9')
+                new ElementDeGrilleImplAsChar('2')
         };
 
         ElementDeGrille[][] grilleTabInvalid = {
-                {elements[0], elements[1], elements[2], null, null, null, null, null, null},
-                {elements[3], elements[4], elements[5], null, null, null, null, null, null},
-                {elements[6], elements[7], elements[8], null, null, null, null, null, null},
+                {elements[0], elements[1], null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -130,6 +125,27 @@ public class SudokuSolverTest {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null}
         };
+
+        Grille invalidGrid = new GrilleImpl(elements, grilleTabInvalid);
+
+        // Arrange
+        SudokuSolver solver = new SudokuSolver();
+
+        // Act
+        boolean result = solver.solve(invalidGrid);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    public final void testSolveEmptyGrid() {
+        ElementDeGrilleImplAsChar[] elements = {
+                new ElementDeGrilleImplAsChar('1'),
+                new ElementDeGrilleImplAsChar('2')
+        };
+
+        ElementDeGrille[][] grilleTabInvalid = {};
 
         Grille invalidGrid = new GrilleImpl(elements, grilleTabInvalid);
 
