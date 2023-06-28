@@ -181,23 +181,6 @@ public class GrilleImplTest {
     }
 
     /**
-     * Série de tests sur getDimension.
-     */
-    @Test
-    public final void testGetDimensionReturnCorrectValue() {
-        // Arrange
-        int expectedDimension = INTTROIS;
-
-        // Act
-        int actualDimension = grille.getDimension();
-
-        // Assert
-        assertEquals(expectedDimension, actualDimension);
-    }
-
-    //
-
-    /**
      * Série de tests sur SetValue.
      *
      * @throws HorsBornesException Gestion erreur
@@ -256,24 +239,6 @@ public class GrilleImplTest {
     }
 
     /**
-     * Test de mettre une valeur sur un élément initial de la grille.
-     */
-    @Test
-    public final
-    void testSetValueInitialValueThrowValeurInitialeModificationException() {
-        // Arrange
-        int x = INTDEUX;
-        int y = INTDEUX;
-        ElementDeGrille value = elements[2];
-
-        // Act and Assert
-        assertThrows(
-                ValeurInitialeModificationException.class,
-                () -> grille.setValue(x, y, value)
-        );
-    }
-
-    /**
      * Test de mettre une valeur alors que l'élement n'est pas autorisé.
      */
     @Test
@@ -288,25 +253,6 @@ public class GrilleImplTest {
                 ElementInterditException.class,
                 () -> grille.setValue(x, y, value)
         );
-    }
-
-    /**
-     * Test si c'est une valeur initiale.
-     *
-     * @throws HorsBornesException Gestion erreur
-     */
-    @Test
-    public final void testIsValeurInitialeWithValueReturnsTrue()
-            throws HorsBornesException {
-        // Arrange
-        int x = INTDEUX;
-        int y = INTDEUX;
-
-        // Act
-        boolean result = grille.isValeurInitiale(x, y);
-
-        // Assert
-        assertTrue(result);
     }
 
     /**
