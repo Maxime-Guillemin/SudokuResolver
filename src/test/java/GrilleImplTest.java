@@ -70,6 +70,10 @@ public class GrilleImplTest {
      * Constante pour initialiser un élément.
      */
     private static final char TROIS = '3';
+    /**
+     * Constante pour initialiser un élément.
+     */
+    private static final int DIX = 10;
 
     /**
      * Implémentation d'un tableau d'élément.
@@ -141,6 +145,24 @@ public class GrilleImplTest {
 
         // Assert
         assertEquals(expectedElements, actualElements);
+    }
+
+    /**
+     * Mise en place des tests sur les exceptions.
+     */
+    @Test
+    public final void testCompterValeursPossiblesThrowsException() {
+
+        // Appeler la méthode compterValeursPossibles en
+        // fournissant des paramètres qui déclencheront une exception
+        int row = DIX;
+        int col = DIX;
+
+        // Act and Assert
+        assertThrows(
+                HorsBornesException.class,
+                () -> grille.compterValeursPossibles(row, col)
+        );
     }
 
     /**

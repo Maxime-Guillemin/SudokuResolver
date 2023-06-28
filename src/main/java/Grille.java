@@ -103,4 +103,38 @@ public interface Grille {
      * sont en dehors de la grille
      */
     boolean isValeurInitiale(int x, int y) throws HorsBornesException;
+
+    /**
+     * Trouve la prochaine case vide dans la grille en
+     * utilisant une approche basée sur les contraintes.
+     *
+     * @return Les coordonnées de la prochaine case vide
+     * sous forme d'un tableau [x, y],
+     * ou null si aucune case vide n'est trouvée.
+     * @throws HorsBornesException si x ou y
+     * @throws ElementInterditException
+     * si value n'est pas un caractère pouvant être mis dans la grille
+     * @throws ValeurInitialeModificationException
+     * si une valeur initiale de la grille est en position x,y
+     */
+
+    int[] trouverProchaineCaseVide()
+            throws HorsBornesException,
+            ElementInterditException, ValeurInitialeModificationException;
+
+    /**
+     * Compte le nombre de valeurs possibles pour une case vide donnée.
+     *
+     * @param row L'indice de ligne de la case vide.
+     * @param col L'indice de colonne de la case vide.
+     * @return Le nombre de valeurs possibles pour la case vide.
+     * @throws HorsBornesException si x ou y
+     * @throws ElementInterditException
+     * si value n'est pas un caractère pouvant être mis dans la grille
+     * @throws ValeurInitialeModificationException
+     * si une valeur initiale de la grille est en position x,y
+     */
+    int compterValeursPossibles(final int row, final int col)
+            throws HorsBornesException,
+            ElementInterditException, ValeurInitialeModificationException;
 }

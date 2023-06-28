@@ -137,18 +137,13 @@ public class GrilleDecorateur implements Grille {
      * @param value la valeur à vérifier
      * @return true si la valeur est possible, false sinon
      * @throws HorsBornesException
-     * si les coordonnées sont en dehors des bornes de la grille
-     * @throws ElementInterditException
-     * si la valeur est interdite dans la grille
-     * @throws ValeurInitialeModificationException
      * si la valeur à modifier est une valeur initiale de la grille
      */
     @Override
     public final boolean isPossible(
             final int x, final int y, final ElementDeGrille value)
-            throws HorsBornesException, ElementInterditException,
-            ValeurInitialeModificationException {
-        return grille.isPossible(x, y, value);
+            throws HorsBornesException {
+        throw new HorsBornesException("fausse exception");
     }
 
     /**
@@ -165,5 +160,35 @@ public class GrilleDecorateur implements Grille {
     public final boolean isValeurInitiale(final int x, final int y)
             throws HorsBornesException {
         return grille.isValeurInitiale(x, y);
+    }
+
+    /**
+     * Trouve la prochaine case vide dans la grille en
+     * utilisant une approche basée sur les contraintes.
+     *
+     * @return Les coordonnées de la prochaine case vide
+     * sous forme d'un tableau [x, y],
+     * ou null si aucune case vide n'est trouvée.
+     */
+    @Override
+    public final int[] trouverProchaineCaseVide()
+            throws HorsBornesException,
+            ElementInterditException, ValeurInitialeModificationException {
+       return grille.trouverProchaineCaseVide();
+    }
+
+    /**
+     * Compte le nombre de valeurs possibles pour une case vide donnée.
+     *
+     * @param row L'indice de ligne de la case vide.
+     * @param col L'indice de colonne de la case vide.
+     * @return Le nombre de valeurs possibles pour la case vide.
+     */
+    @Override
+    public final int compterValeursPossibles(
+            final int row, final int col)
+            throws HorsBornesException,
+            ElementInterditException, ValeurInitialeModificationException {
+        return grille.compterValeursPossibles(row, col);
     }
 }

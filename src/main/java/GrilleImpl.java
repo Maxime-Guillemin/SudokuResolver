@@ -246,4 +246,54 @@ public class GrilleImpl implements Grille {
             );
         }
     }
+
+    /**
+     * Trouve la prochaine case vide dans la grille en
+     * utilisant une approche basée sur les contraintes.
+     *
+     * @return Les coordonnées de la prochaine case vide
+     * sous forme d'un tableau [x, y],
+     * ou null si aucune case vide n'est trouvée.
+     */
+    @Override
+    public final int[] trouverProchaineCaseVide()
+            throws HorsBornesException,
+            ElementInterditException, ValeurInitialeModificationException {
+        int[] coordonnees = null;
+        int minValeursPossibles = dimension + 1;
+
+        for (int row = 0; row < dimension; row++) {
+            for (int col = 0; col < dimension; col++) {
+                if (grilleTab[row][col] == null) {
+                    int valeursPossibles = compterValeursPossibles(row, col);
+                    if (valeursPossibles < minValeursPossibles) {
+                        minValeursPossibles = valeursPossibles;
+                        coordonnees = new int[]{row, col};
+                    }
+                }
+            }
+        }
+
+        return coordonnees;
+    }
+
+    /**
+     * Compte le nombre de valeurs possibles pour une case vide donnée.
+     *
+     * @param row L'indice de ligne de la case vide.
+     * @param col L'indice de colonne de la case vide.
+     * @return Le nombre de valeurs possibles pour la case vide.
+     */
+    @Override
+    public final int compterValeursPossibles(final int row, final int col)
+            throws HorsBornesException,
+            ElementInterditException, ValeurInitialeModificationException {
+        int valeursPossibles = 0;
+        for (ElementDeGrille value : elements) {
+                if (isPossible(row, col, value)) {
+                    valeursPossibles++;
+                }
+        }
+        return valeursPossibles;
+    }
 }

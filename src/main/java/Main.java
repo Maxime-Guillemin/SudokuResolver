@@ -35,7 +35,7 @@ public final class Main {
      * @param args command line arguments (not used in this program)
      */
     public static void main(final String[] args) {
-        String fichierGrille = "grille/sudoku16-a.txt";
+        String fichierGrille = "src/main/java/grille/sudoku16-a.txt";
 
         try (InputStream in = getInputStreamFromRelativePath(fichierGrille)) {
             Grille grille = GrilleParser.parse(in);

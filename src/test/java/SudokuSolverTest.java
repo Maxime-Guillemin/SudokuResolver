@@ -1,3 +1,6 @@
+import exception.ElementInterditException;
+import exception.HorsBornesException;
+import exception.ValeurInitialeModificationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -70,7 +73,6 @@ public class SudokuSolverTest {
      * La valeur de cette constante est 8.
      */
     public static final int IDX_8 = 8;
-
     /**
      * Méthode de configuration exécutée avant chaque test.
      * Elle initialise la grille avec des éléments
@@ -100,18 +102,18 @@ public class SudokuSolverTest {
                 {elements[IDX_6], elements[IDX_7], elements[IDX_8],
                         null, null,
                         null, null, null, null},
+                {null, elements[IDX_3], null, null, null,
+                        null, null, null, null},
+                {elements[IDX_8], null, null, null, null,
+                        null, null, null, elements[IDX_5]},
                 {null, null, null, null, null,
                         null, null, null, null},
-                {null, null, null, null, null,
+                {null, null, null, elements[IDX_4], null,
                         null, null, null, null},
-                {null, null, null, null, null,
+                {elements[IDX_4], null, null, null, null,
                         null, null, null, null},
-                {null, null, null, null, null,
-                        null, null, null, null},
-                {null, null, null, null, null,
-                        null, null, null, null},
-                {null, null, null, null, null,
-                        null, null, null, null}
+                {elements[IDX_1], null, elements[IDX_7], null, null,
+                        null, null, null, elements[IDX_8]}
         };
 
         grille = new GrilleImpl(elements, grilleTab);
@@ -119,9 +121,17 @@ public class SudokuSolverTest {
 
     /**
      * Teste la résolution du sudoku avec une grille valide.
+     * @throws HorsBornesException si des coordonnées
+     * sont en dehors des bornes de la grille
+     * @throws ElementInterditException si un élément
+     * interdit est présent dans la grille
+     * @throws ValeurInitialeModificationException si
+     * une tentative de modification d'une valeur
      */
     @Test
-    public final void testSolvableGrid() {
+    public final void testSolvableGrid()
+            throws HorsBornesException,
+            ElementInterditException, ValeurInitialeModificationException {
         // Arrange
         SudokuSolver solver = new SudokuSolver();
 
@@ -140,9 +150,17 @@ public class SudokuSolverTest {
      * résoudre une grille décorée vide.
      * Le résultat attendu est false, indiquant que
      * la résolution a échoué.
+     * @throws HorsBornesException si des coordonnées
+     * sont en dehors des bornes de la grille
+     * @throws ElementInterditException si un élément
+     * interdit est présent dans la grille
+     * @throws ValeurInitialeModificationException si
+     * une tentative de modification d'une valeur
      */
     @Test
-    public final void testExceptionDeGrille() {
+    public final void testExceptionDeGrille()
+            throws HorsBornesException,
+            ElementInterditException, ValeurInitialeModificationException {
         SudokuSolver solver = new SudokuSolver();
         boolean result = solver.solve(new GrilleDecorateur() { });
         assertFalse(result);
@@ -150,9 +168,17 @@ public class SudokuSolverTest {
 
     /**
      * Teste la résolution du sudoku avec une grille déjà complète.
+     * @throws HorsBornesException si des coordonnées
+     * sont en dehors des bornes de la grille
+     * @throws ElementInterditException si un élément
+     * interdit est présent dans la grille
+     * @throws ValeurInitialeModificationException si
+     * une tentative de modification d'une valeur
      */
     @Test
-    public final void testSolveAlreadyCompleteGrid() {
+    public final void testSolveAlreadyCompleteGrid()
+            throws HorsBornesException,
+            ElementInterditException, ValeurInitialeModificationException {
         ElementDeGrilleImplAsChar[] elements = {
                 new ElementDeGrilleImplAsChar('1'),
                 new ElementDeGrilleImplAsChar('2'),
@@ -191,9 +217,17 @@ public class SudokuSolverTest {
 
     /**
      * Teste la résolution du sudoku avec une grille invalide.
+     * @throws HorsBornesException si des coordonnées
+     * sont en dehors des bornes de la grille
+     * @throws ElementInterditException si un élément
+     * interdit est présent dans la grille
+     * @throws ValeurInitialeModificationException si
+     * une tentative de modification d'une valeur
      */
     @Test
-    public final void testSolveInsolvableGrid() {
+    public final void testSolveInsolvableGrid()
+            throws HorsBornesException,
+            ElementInterditException, ValeurInitialeModificationException {
         ElementDeGrilleImplAsChar[] elements = {
                 new ElementDeGrilleImplAsChar('1'),
                 new ElementDeGrilleImplAsChar('2')
@@ -227,9 +261,17 @@ public class SudokuSolverTest {
      * tenter de résoudre la grille vide.
      * Le résultat attendu est false, indiquant que la
      * résolution a échoué.
+     * @throws HorsBornesException si des coordonnées
+     * sont en dehors des bornes de la grille
+     * @throws ElementInterditException si un élément
+     * interdit est présent dans la grille
+     * @throws ValeurInitialeModificationException si
+     * une tentative de modification d'une valeur
      */
     @Test
-    public final void testSolveEmptyGrid() {
+    public final void testSolveEmptyGrid()
+            throws HorsBornesException,
+            ElementInterditException, ValeurInitialeModificationException {
         ElementDeGrilleImplAsChar[] elements = {
                 new ElementDeGrilleImplAsChar('1'),
                 new ElementDeGrilleImplAsChar('2')
