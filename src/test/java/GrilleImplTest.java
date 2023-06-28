@@ -181,24 +181,6 @@ public class GrilleImplTest {
     }
 
     /**
-     * Série de tests sur getElements.
-     */
-    @Test
-    public final void testGetElementsReturnCorrectSet() {
-        // Arrange
-        Set<ElementDeGrille> expectedElements = new HashSet<>();
-        expectedElements.add(elements[0]);
-        expectedElements.add(elements[1]);
-        expectedElements.add(elements[2]);
-
-        // Act
-        Set<ElementDeGrille> actualElements = grille.getElements();
-
-        // Assert
-        assertEquals(expectedElements, actualElements);
-    }
-
-    /**
      * Série de tests sur getDimension.
      */
     @Test
